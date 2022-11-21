@@ -9,3 +9,5 @@
 
 ## Finally, Uploaded the Image to DockerHub
 AlmogLevig/web-app:x.x.x:build-num
+
+#### Official Version 1.0.0
