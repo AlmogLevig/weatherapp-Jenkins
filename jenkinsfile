@@ -60,22 +60,10 @@ pipeline{
                 echo '---This is a Artifacts Delivery step---'    
             }
         }
-        stage('deployment') {
-            steps{
-                sshagent(['f8491a07-2b62-4e1d-90bb-dda23355138a']) {
-                    sh '''
-                        scp deployment.yml script.sh ubuntu@ip-172-31-30-238.ec2.internal:"~"
-                        ssh -t ubuntu@ip-172-31-30-238.ec2.internal 'chmod +x script.sh | sh script.sh' 
-                        ssh -t ubuntu@ip-172-31-30-238.ec2.internal 'kubectl apply -f deployment.yml'
-                        ssh -t ubuntu@ip-172-31-30-238.ec2.internal 'kubectl port-forward service/weathapp-ser --address 0.0.0.0 5000:5000'
-                        '''
-                }
-            }
-        }
     }
 
     post{
-
+        
         failure{
             mail to: "almog.levig@gmail.com",
             subject: "jenkins build:${currentBuild.currentResult}: ${env.JOB_NAME}",
@@ -87,21 +75,23 @@ pipeline{
         success{
             mail to: "almog.levig@gmail.com",
             subject: "jenkins build:${currentBuild.currentResult}: ${env.JOB_NAME}",
-            body: " WOW!!! Youre Amazing Make me a child!${currentBuild.currentResult}: Job ${env.JOB_NAME}\nMore Info can be found here: ${env.BUILD_URL}"
+            body: " WOW!!! ${currentBuild.currentResult}: Job ${env.JOB_NAME}\nMore Info can be found here: ${env.BUILD_URL}"
         }
     }
 }
 
-
-
-    // environment{
-    //     docker_id=credentials('deploy_image')
-    //     IMG_TAG="v1.${BUILD_NUMBER}"
-    //     IMG_NAME='weather_app_img'
-    //     CON_NAME='webapp_con'
-    //     REPO='imageweatherapp/'
-    //     ARTIFACT_DIR='44.207.130.16:8082/imageweatherapp'     
-    // }
+        // stage('deployment') {
+        //     steps{
+        //         sshagent(['f8491a07-2b62-4e1d-90bb-dda23355138a']) {
+        //             sh '''
+        //                 scp deployment.yml script.sh ubuntu@ip-172-31-30-238.ec2.internal:"~"
+        //                 ssh -t ubuntu@ip-172-31-30-238.ec2.internal 'chmod +x script.sh | sh script.sh' 
+        //                 ssh -t ubuntu@ip-172-31-30-238.ec2.internal 'kubectl apply -f deployment.yml'
+        //                 ssh -t ubuntu@ip-172-31-30-238.ec2.internal 'kubectl port-forward service/weathapp-ser --address 0.0.0.0 5000:5000'
+        //                 '''
+        //         }
+        //     }
+        // }
 
         // stage('delivery artifact') {
         //     steps {
