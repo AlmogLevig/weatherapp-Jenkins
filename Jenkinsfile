@@ -4,7 +4,7 @@ pipeline{
     environment{
         docker_id=credentials('deploy_image')   
     }
-
+    stages{
         stage('Build') {
             steps {
                 sh "sudo docker build -t ${env.DOCKERHUB_USER}/${env.IMG_NAME}:${env.IMG_TAG} ."
@@ -26,6 +26,7 @@ pipeline{
                 echo '---This is a Artifacts Delivery step---'    
             }
         }
+    }
 }
 
     post{
