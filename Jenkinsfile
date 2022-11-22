@@ -18,26 +18,6 @@ pipeline{
                 echo '---This is a run step---'
             }
         }
-
-        // stage('test & yml configuration'){
-        //     parallel{
-            
-        //         stage('test') {
-        //             steps {
-        //                 sh 'sudo docker exec  ${env.CON_NAME} python3 unit_test.py'             
-        //                 echo '---This is a test step---'  
-        //             }
-        //         }
-            
-        //         stage('yml configuration') {
-        //             steps {
-        //                 sh "sed -i -e 's/${env.IMG_NAME}.*/${env.IMG_NAME}:${env.IMG_TAG}/' ./deployment.yml"
-        //                 echo '---This is a yml configuration step---'
-        //             }
-        //         }
-            
-        //     }
-        // }
         
         stage('delivery image to DockerHub') {
             steps {
