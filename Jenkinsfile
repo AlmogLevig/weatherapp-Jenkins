@@ -35,12 +35,11 @@ pipeline{
             }
         }
     }
-}
 
     post{
 
         failure{
-            mail to: "{env.MAIL}",
+            mail to: "${env.MAIL}",
             subject: "jenkins build:${currentBuild.currentResult}: ${env.JOB_NAME}",
             body: "OPS! /n something Wrong in your Pipeline${currentBuild.currentResult}: Job ${env.JOB_NAME}\nMore Info can be found here: ${env.BUILD_URL}"
             sh "sudo docker stop ${env.CON_NAME}" 
@@ -53,3 +52,4 @@ pipeline{
             body: "WOW!!! Youre Amazing! ${currentBuild.currentResult}: Job ${env.JOB_NAME}\nMore Info can be found here: ${env.BUILD_URL}"
         }
     }
+}
