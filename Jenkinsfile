@@ -6,7 +6,7 @@ pipeline{
 
     stages{
 
-        stage('Build') {
+        stage('Clean') {
             steps {
                 sh 'sudo docker system prune -af --volumes'
                 echo '---This is a Clean step---'
