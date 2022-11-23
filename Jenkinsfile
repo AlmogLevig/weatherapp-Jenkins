@@ -1,10 +1,11 @@
 pipeline{
-    agent { label 'testAgent' }
 
-    environment{
-        docker_id=credentials('deploy_image')   
-    }
+    agent{ label 'testAgent' }
+
+    environment{ docker_id=credentials('deploy_image') }
+
     stages{
+
         stage('Build') {
             steps {
                 sh "sudo docker build -t ${env.DOCKERHUB_USER}/${env.IMG_NAME}:${env.IMG_TAG} ."
@@ -28,7 +29,6 @@ pipeline{
         }
     }
 }
-
 
     post{
 
