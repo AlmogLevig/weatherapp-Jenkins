@@ -15,14 +15,14 @@ pipeline{
 
         stage('Build') {
             steps {
-                sh "sudo docker build -t ${env.DOCKERHUB_USER}/${env.IMG_NAME}:${env.IMG_TAG} ."
+                sh "sudo docker build -t ${env.DOCKERHUB_USER}/${env.IMG_NAME}:${env.IMG_TAG}-${BUILD_NUMBER} ."
                 echo '---This is a Build step---'
             }
         }
         
         stage('run') {
             steps {
-                sh "sudo docker container run --name ${env.CON_NAME} -dit -p 80:5000 ${env.DOCKERHUB_USER}/${env.IMG_NAME}:${env.IMG_TAG}"
+                sh "sudo docker container run --name ${env.CON_NAME} -dit -p 80:5000 ${env.DOCKERHUB_USER}/${env.IMG_NAME}:${env.IMG_TAG}-${BUILD_NUMBER}"
                 echo '---This is a run step---'
             }
         }
@@ -30,7 +30,7 @@ pipeline{
         stage('delivery image to DockerHub') {
             steps {
                 sh 'echo $docker_id_PSW | sudo docker login -u $docker_id_USR --password-stdin'
-                sh "sudo docker push ${env.DOCKERHUB_USER}/${env.IMG_NAME}:${env.IMG_TAG}"
+                sh "sudo docker push ${env.DOCKERHUB_USER}/${env.IMG_NAME}:${env.IMG_TAG}-${BUILD_NUMBER}"
                 echo '---This is a Artifacts Delivery step---'    
             }
         }
